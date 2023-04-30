@@ -12,7 +12,7 @@ export const App = () => {
   const [perPage, setPerPage] = useState(12);
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (query) {
@@ -70,6 +70,11 @@ export const App = () => {
       {images.length > 0 && <ImageGallery images={images} />}
       {images.length > 0 && showModal && <Button onBtnClick={handleLoadMore} />}
       {isLoading && <Loader />}
+      {error && (
+        <p>
+          {error} There are no images for "{query}" search
+        </p>
+      )}
     </div>
   );
 };
