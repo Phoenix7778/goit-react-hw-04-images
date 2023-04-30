@@ -70,11 +70,7 @@ export const App = () => {
       {images.length > 0 && <ImageGallery images={images} />}
       {images.length > 0 && showModal && <Button onBtnClick={handleLoadMore} />}
       {isLoading && <Loader />}
-      {error && (
-        <p>
-          {error} There are no images for "{query}" search
-        </p>
-      )}
+      {error && <p>{error} Sorry, nothing found on your request</p>}
     </div>
   );
 };
