@@ -1,58 +1,53 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { useEffect } from 'react';
 
-export class Modal extends Component {
-  componentDidMount() {
-    window.addEventListener('keydown', this.onEscPress);
-  }
+export const Modal = ({ url, alt, closeModalWindow }) => {
+  useEffect(() => {
+    const onEscPress = event => {
+      if (event.code === 'Escape') {
+        closeModalWindow();
+      }
+    };
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.onEscPress);
-  }
+    window.addEventListener('keydown', onEscPress);
+    return () => {
+      window.removeEventListener('keydown', onEscPress);
+    };
+  }, [closeModalWindow]);
 
-  onEscPress = event => {
-    if (event.code === 'Escape') {
-      this.props.closeModalWindow();
-    }
-  };
-
-  handleClose = event => {
+  const handleClose = event => {
     if (event.currentTarget === event.target) {
-      this.props.closeModalWindow();
+      closeModalWindow();
     }
   };
 
-  render() {
-    const { url, alt } = this.props;
-
-    return (
+  return (
+    <div
+      onClick={handleClose}
+      style={{
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        zIndex: '1200',
+      }}
+    >
       <div
-        onClick={this.handleClose}
         style={{
-          position: 'fixed',
-          top: '0',
-          left: '0',
-          width: '100vw',
-          height: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: 'rgba(0, 0, 0, 0.8)',
-          zIndex: '1200',
+          maxWidth: 'calc(100vw - 48px)',
+          maxHeight: 'calc(100vh - 24px)',
         }}
       >
-        <div
-          style={{
-            maxWidth: 'calc(100vw - 48px)',
-            maxHeight: 'calc(100vh - 24px)',
-          }}
-        >
-          <img src={url} alt={alt} />
-        </div>
+        <img src={url} alt={alt} />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 Modal.propTypes = {
   url: PropTypes.string.isRequired,

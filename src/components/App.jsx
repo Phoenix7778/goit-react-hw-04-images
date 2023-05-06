@@ -67,10 +67,15 @@ export const App = () => {
       }}
     >
       <Searchbar onSubmit={handleSearchSubmit} />
-      {images.length > 0 && <ImageGallery images={images} />}
-      {images.length > 0 && showModal && <Button onBtnClick={handleLoadMore} />}
-      {isLoading && <Loader />}
       {error && <p>{error} Sorry, nothing found on your request</p>}
+
+      {images.length > 0 && <ImageGallery images={images} />}
+
+      {isLoading && <Loader />}
+
+      {!isLoading && !error && images.length > 0 && showModal && (
+        <Button onBtnClick={handleLoadMore} />
+      )}
     </div>
   );
 };
